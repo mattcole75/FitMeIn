@@ -20,7 +20,7 @@ const userProductScreen = (props) => {
         ])
     };
 
-    const editProductHandler =(id) => {
+    const editProductHandler = (id) => {
         props.navigation.navigate('UserEditProduct', {productId: id});
     };
 
@@ -55,7 +55,9 @@ const userProductScreen = (props) => {
                         <Button
                             color={colours.primary} 
                             title='Delete'
-                            onPress={() => {() => deleteHandler(itemData.item.id)}}
+                            onPress={() => {
+                                deleteHandler(itemData.item.id)
+                            }}
                         />
                     </ProductItem>
                 }
