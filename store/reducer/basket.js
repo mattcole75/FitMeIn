@@ -1,7 +1,7 @@
 import {ADD_TO_BASKET, REMOVE_FROM_BASKET} from "../actions/basket";
 import {ADD_ORDER} from "../actions/orders";
 import BasketItem from "../../models/basketItem";
-import { DELETE_PRODUCT } from "../actions/products";
+import { DELETE_SPOT } from "../actions/spots";
 
 
 const initialState = {
@@ -14,13 +14,13 @@ export default (state = initialState, action) => {
     switch (action.type) {
 
         case ADD_TO_BASKET:
-            const addedProduct = action.product;
-            const id = addedProduct.id;
-            const title = addedProduct.title;
-            const price = addedProduct.price;
+            const addedSpot = action.spot;
+            const id = addedSpot.id;
+            const title = addedSpot.title;
+            const price = addedSpot.price;
 
             if(state.items[id]) {
-                // already requested product
+                // already requested spot so return current state
                 return state;
             } else {
                 const basketItem = new BasketItem(id, title, price);
@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
         case ADD_ORDER:
             return initialState;
         
-        case DELETE_PRODUCT:
+        case DELETE_SPOT:
             if(!state.items[action.id]) {
                 return state;
             }

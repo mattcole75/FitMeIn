@@ -1,28 +1,25 @@
-import 'react-native-gesture-handler';
-import React, { useState } from 'react';
-import { createStore, combineReducers } from 'redux';
-import { Provider } from 'react-redux';
-
-import { NavigationContainer } from '@react-navigation/native';
-import Navigation from './navigation/drawerNavigator';
-
-import productReducer from './store/reducer/products';
+import React, {useState} from 'react';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
+import reduxThunk from 'redux-thunk';
+import AppNavigator from './navigation/appNavigator';
+import spotReducer from './store/reducer/spots';
 import basketReducer from './store/reducer/basket';
 import orderReducter from './store/reducer/orders';
-
+import authReducer from './store/reducer/auth';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 
-// import {composeWithDevTools} from 'redux-devtools-extension'; // dev only remove for production
-
 const rootReducer = combineReducers({
-  products: productReducer,
+  spots: spotReducer,
   basket: basketReducer,
-  orders: orderReducter
+  orders: orderReducter,
+  auth: authReducer
 });
 
 // const store = createStore(rootReducer, composeWithDevTools()); // dev only remove for production
-const store = createStore(rootReducer); // production
+const store = createStore(rootReducer, applyMiddleware(reduxThunk)); // production
+
 const fetchFonts = () => {
   return Font.loadAsync({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -30,8 +27,8 @@ const fetchFonts = () => {
   });
 };
 
-
 export default function App() {
+  
   const [fontLoaded, setFontLoaded] = useState(false);
 
   if (!fontLoaded) {
@@ -46,9 +43,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-        <NavigationContainer>
-            <Navigation />
-        </NavigationContainer>
+        <AppNavigator />
     </Provider>
   );
 }

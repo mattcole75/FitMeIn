@@ -1,3 +1,5 @@
+// this component provides reusable code to manage text input with regards to format and validation
+
 import React, {useReducer, useEffect} from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 
@@ -10,7 +12,8 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 value: action.value,
-                isValid: action.isValid
+                isValid: action.isValid,
+                touched: true
             };
         case INPUT_BLUR:
             return {
@@ -48,6 +51,7 @@ const input = (props) => {
     const changeHandler = (text) => {
 
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
         let isValid = true;
         if (props.required && text.trim().length === 0) {
             isValid = false;
@@ -64,6 +68,9 @@ const input = (props) => {
         if (props.minLength != null && text.length < props.minLength) {
             isValid = false;
         }
+        if (props.maxLength != null && text.length >= props.maxLength) {
+            isValid = false;
+        }
         dispatch({
             type: INPUT_CHANGE,
             value: text,
@@ -71,9 +78,9 @@ const input = (props) => {
         })
     }
 
-    const lostFocusHandler = () => {
-        dispatch({type: INPUT_BLUR})
-    };
+    // const lostFocusHandler = () => {
+    //     dispatch({type: INPUT_BLUR})
+    // };
 
     return (
         <View style={styles.formControl}>
@@ -81,9 +88,10 @@ const input = (props) => {
             <TextInput
                 {...props}
                 style={styles.input}
+                placeholder={props.label}
                 value={state.value}
                 onChangeText={changeHandler}
-                onBlur={lostFocusHandler}
+                // onBlur={lostFocusHandler}
             />
             {!state.isValid && state.touched && (
                 <View style={styles.errorContainer}>
@@ -96,7 +104,7 @@ const input = (props) => {
 
 const styles = StyleSheet.create({
     formControl: {
-        width: '100%'
+        // width: '100%'
     },
     label: {
         fontFamily: 'open-sans-bold',
@@ -112,9 +120,9 @@ const styles = StyleSheet.create({
         marginVertical: 5
     },
     errorText: {
-    fontFamily: 'open-sans',
-    color: 'red',
-    fontSize: 13
+        fontFamily: 'open-sans',
+        color: 'red',
+        fontSize: 13
     }
 });
 

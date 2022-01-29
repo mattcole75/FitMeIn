@@ -9,13 +9,13 @@ const basketItem = (props) => {
             <Text style={styles.title}>{props.title}</Text>
             <View style={styles.basketItem}>
                 <Text style={styles.currency}>£{props.price.toFixed(2)}</Text>
-                {props.deletable && <TouchableOpacity onPress={props.onRemove} style={styles.deleteButton} >
+                {props.deletable ? <TouchableOpacity onPress={props.onRemove} style={styles.deleteButton}>
                     <Ionicons 
                         name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
                         size={23}
                         color='red'
                     />
-                </TouchableOpacity>}
+                </TouchableOpacity> : null}
             </View>
         </View>
     );

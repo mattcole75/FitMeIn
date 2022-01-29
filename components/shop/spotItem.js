@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform} from 'react-native';
 import Card from '../ui/card';
 
-const productItem = (props) => {
+const spotItem = (props) => {
 
     let TouchableCmp = TouchableOpacity;
     if(Platform.OS === 'android' && Platform.Version >= 21) {
@@ -11,13 +11,15 @@ const productItem = (props) => {
     
     return (
         
-        <Card style={styles.product}>
+        <Card style={styles.spot}>
             <View style={styles.touchable}>
                 <TouchableCmp onPress={props.onSelect} useForground>
                     <View>
                         <Image style={styles.image} source={{uri: props.image}}/>
                         <View style={styles.details}>
                             <Text style={styles.title}>{props.title}</Text>
+                            <Text style={styles.date}>{props.appointmentDateTime}</Text>
+                            <Text style={styles.duration}>For {props.duration} minutes</Text>
                             <Text style={styles.price}>£{props.price.toFixed(2)}</Text>
                         </View>
                         <View style={styles.actions}>
@@ -31,8 +33,8 @@ const productItem = (props) => {
 };
 
 const styles = StyleSheet.create({
-    product: {
-        height: 300,
+    spot: {
+        height: 430,
         margin: 20
     },
     touchable: {
@@ -48,6 +50,16 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'open-sans-bold',
         fontSize: 18
+    },
+    date: {
+        fontFamily: 'open-sans',
+        fontSize: 14,
+        color: '#888'
+    },
+    duration: {
+        fontFamily: 'open-sans',
+        fontSize: 14,
+        color: '#888'
     },
     price: {
         fontFamily: 'open-sans',
@@ -68,4 +80,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default productItem;
+export default spotItem;

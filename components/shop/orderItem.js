@@ -22,14 +22,14 @@ const orderitem = (props) => {
                     setShowDetails(prevState => !prevState)
                 }}
             />
-            {showDetails && (<View style={styles.detail}>
-                {props.items.map(item => 
+            {showDetails ? (<View style={styles.detail}>
+                {JSON.parse(props.items).map(item =>
                     <BasketItem 
                         key={item.id}
                         title={item.title} 
                         price={item.price}
                     />)}
-            </View>)}
+            </View>) : null}
         </Card>
     );
 };
